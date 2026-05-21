@@ -222,33 +222,37 @@ function App() {
     audioEngine.setBPM(newBpm)
   }
 
-  // Apply track state changes to engine
+  // Apply track state changes to engine — deps específicos para que el VU meter no los dispare
   useEffect(() => {
     if (!engineReady) return
     drums.isActive ? drumPlayer.start() : drumPlayer.stop()
     drumPlayer.setVolume(drums.volume)
     drumPlayer.setDrumPattern(drums.mode as DrumPattern)
-  }, [drums, engineReady])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drums.isActive, drums.volume, drums.mode, engineReady])
 
   useEffect(() => {
     if (!engineReady) return
     bass.isActive ? bassPlayer.start() : bassPlayer.stop()
     bassPlayer.setVolume(bass.volume)
     bassPlayer.setMode(bass.mode as BassMode)
-  }, [bass, engineReady])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bass.isActive, bass.volume, bass.mode, engineReady])
 
   useEffect(() => {
     if (!engineReady) return
     guitar.isActive ? guitarPlayer.start() : guitarPlayer.stop()
     guitarPlayer.setVolume(guitar.volume)
-  }, [guitar, engineReady])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [guitar.isActive, guitar.volume, guitar.mode, engineReady])
 
   useEffect(() => {
     if (!engineReady) return
     keys.isActive ? keysPlayer.start() : keysPlayer.stop()
     keysPlayer.setVolume(keys.volume)
     keysPlayer.setMode(keys.mode as KeysMode)
-  }, [keys, engineReady])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keys.isActive, keys.volume, keys.mode, engineReady])
 
   useEffect(() => { aiDirector.setAutonomy(aiAutonomy) }, [aiAutonomy])
   useEffect(() => { aiDirector.setReactivity(aiReactivity) }, [aiReactivity])

@@ -32,11 +32,15 @@ export abstract class InstrumentPlayer {
 
   start() {
     this.isActive = true
-    this.loop?.start(0)
+    if (this.loop && this.loop.state !== 'started') {
+      this.loop.start(0)
+    }
   }
 
   stop() {
     this.isActive = false
-    this.loop?.stop()
+    if (this.loop && this.loop.state === 'started') {
+      this.loop.stop()
+    }
   }
 }
