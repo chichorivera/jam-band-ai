@@ -274,14 +274,14 @@ function App() {
   const patchKeys   = (p: Partial<TrackState>) => setKeys(prev   => ({ ...prev, ...p }))
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white font-sans p-3 md:p-5 flex flex-col gap-4 max-w-5xl mx-auto">
+    <div className="min-h-screen bg-jp-bg text-jp-text font-sans p-3 md:p-5 flex flex-col gap-4 max-w-5xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-violet-400 to-pink-400 bg-clip-text text-transparent">
-            🎵 AI Jam Band
-          </h1>
-          <p className="text-xs text-zinc-500">Tu banda de IA en tiempo real</p>
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="JamPulse logo" className="h-14 w-auto drop-shadow-lg" />
+          <div>
+            <p className="text-xs text-jp-dim tracking-widest uppercase">Tu banda de IA en tiempo real</p>
+          </div>
         </div>
         <StyleSelector currentStyle={style} onChange={handleStyleChange} />
       </div>

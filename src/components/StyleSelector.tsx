@@ -15,8 +15,8 @@ export function StyleSelector({ currentStyle, onChange }: Props) {
           onClick={() => onChange(key as MusicStyle)}
           className={`px-3 py-1.5 rounded-full text-sm font-semibold border transition-all ${
             currentStyle === key
-              ? 'bg-violet-600 border-violet-400 text-white shadow-lg shadow-violet-900/40'
-              : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:border-violet-500 hover:text-white'
+              ? 'bg-jp-mint/15 border-jp-mint text-jp-mint glow-mint'
+              : 'bg-jp-card border-jp-border text-jp-dim hover:border-jp-mint/50 hover:text-jp-text'
           }`}
         >
           {cfg.icon} {cfg.name}

@@ -31,55 +31,48 @@ function decisionIcon(d: AIDecision): string {
   }
 }
 
+function SliderRow({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-xs text-jp-dim w-20 shrink-0">{label}</span>
+      <input
+        type="range" min={0} max={100} value={value}
+        onChange={e => onChange(Number(e.target.value))}
+        className="flex-1 accent-[#00d4a1]"
+      />
+      <span className="text-xs text-jp-dim w-8 text-right">{value}%</span>
+    </div>
+  )
+}
+
 export function AIStatusLog({ log, autonomy, reactivity, onAutonomyChange, onReactivityChange }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight
   }, [log.length])
 
   return (
-    <div className="p-3 bg-zinc-900 rounded-xl border border-zinc-800 flex flex-col gap-3">
+    <div className="p-3 bg-jp-surface rounded-xl border border-jp-border flex flex-col gap-3">
       <div className="flex items-center gap-2">
         <span className="text-base">🤖</span>
-        <span className="text-sm font-semibold text-zinc-300">Director IA</span>
+        <span className="text-sm font-semibold text-white">Director IA</span>
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-500 w-20 shrink-0">Autonomía</span>
-          <input
-            type="range" min={0} max={100} value={autonomy}
-            onChange={e => onAutonomyChange(Number(e.target.value))}
-            className="flex-1 accent-violet-500"
-          />
-          <span className="text-xs text-zinc-400 w-8 text-right">{autonomy}%</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-500 w-20 shrink-0">Reactividad</span>
-          <input
-            type="range" min={0} max={100} value={reactivity}
-            onChange={e => onReactivityChange(Number(e.target.value))}
-            className="flex-1 accent-violet-500"
-          />
-          <span className="text-xs text-zinc-400 w-8 text-right">{reactivity}%</span>
-        </div>
+        <SliderRow label="Autonomía"   value={autonomy}   onChange={onAutonomyChange} />
+        <SliderRow label="Reactividad" value={reactivity} onChange={onReactivityChange} />
       </div>
 
-      <div
-        ref={scrollRef}
-        className="flex flex-col gap-1 max-h-32 overflow-y-auto scrollbar-hide"
-      >
+      <div ref={scrollRef} className="flex flex-col gap-1 max-h-32 overflow-y-auto scrollbar-hide">
         {log.length === 0 ? (
-          <p className="text-xs text-zinc-600 italic">La IA hablará cuando empiece a tocar...</p>
+          <p className="text-xs text-jp-dim italic">La IA hablará cuando empiece a tocar...</p>
         ) : (
           log.slice(-20).map(entry => (
             <div key={entry.id} className="flex items-start gap-2 text-xs">
-              <span className="shrink-0 text-zinc-500">{entry.time}</span>
+              <span className="shrink-0 text-jp-dim font-mono">{entry.time}</span>
               <span>{decisionIcon(entry.decision)}</span>
-              <span className="text-zinc-300">{entry.decision.reason}</span>
+              <span className="text-jp-text">{entry.decision.reason}</span>
             </div>
           ))
         )}
