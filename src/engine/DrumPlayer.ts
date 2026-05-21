@@ -57,14 +57,19 @@ export class DrumPlayer extends InstrumentPlayer {
   private activePattern: Partial<Record<Piece, number[]>> = {}
   private fillCounter = 0
   private isFilling = false
-  private volumeNode: Tone.Volume
+  private volumeNode!: Tone.Volume
 
   constructor() {
     super()
-    this.volumeNode = new Tone.Volume(0).connect(audioEngine.getDrumOutput())
   }
 
   init() {
+    this.loop?.stop()
+    Object.values(this.synths).forEach(s => s?.dispose())
+    this.synths = {}
+    this.volumeNode?.dispose()
+    this.volumeNode = new Tone.Volume(0).connect(audioEngine.getDrumOutput())
+
     this.synths.kick = new Tone.MembraneSynth({
       pitchDecay: 0.05, octaves: 6,
       envelope: { attack: 0.001, decay: 0.3, sustain: 0, release: 0.1 },

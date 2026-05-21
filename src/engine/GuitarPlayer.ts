@@ -6,7 +6,7 @@ import type { Chord, GuitarMode } from '../types'
 
 export class GuitarPlayer extends InstrumentPlayer {
   private poly!: Tone.PolySynth
-  private volumeNode: Tone.Volume
+  private volumeNode!: Tone.Volume
   private scaleEngine: ScaleEngine
   private mode: GuitarMode = 'rhythm'
   private step = 0
@@ -14,10 +14,14 @@ export class GuitarPlayer extends InstrumentPlayer {
   constructor(scaleEngine: ScaleEngine) {
     super()
     this.scaleEngine = scaleEngine
-    this.volumeNode = new Tone.Volume(-6).connect(audioEngine.getGuitarOutput())
   }
 
   init() {
+    this.loop?.stop()
+    this.poly?.dispose()
+    this.volumeNode?.dispose()
+    this.volumeNode = new Tone.Volume(-6).connect(audioEngine.getGuitarOutput())
+
     this.poly = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'triangle' },
       envelope: { attack: 0.02, decay: 0.3, sustain: 0.4, release: 0.5 },

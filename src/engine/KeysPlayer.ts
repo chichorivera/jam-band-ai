@@ -6,7 +6,7 @@ import type { Chord, KeysMode } from '../types'
 
 export class KeysPlayer extends InstrumentPlayer {
   private poly!: Tone.PolySynth
-  private volumeNode: Tone.Volume
+  private volumeNode!: Tone.Volume
   private scaleEngine: ScaleEngine
   private mode: KeysMode = 'piano'
   private step = 0
@@ -14,10 +14,13 @@ export class KeysPlayer extends InstrumentPlayer {
   constructor(scaleEngine: ScaleEngine) {
     super()
     this.scaleEngine = scaleEngine
-    this.volumeNode = new Tone.Volume(-4).connect(audioEngine.getKeysOutput())
   }
 
   init() {
+    this.loop?.stop()
+    this.poly?.dispose()
+    this.volumeNode?.dispose()
+    this.volumeNode = new Tone.Volume(-4).connect(audioEngine.getKeysOutput())
     this.buildSynth()
 
     this.loop = new Tone.Sequence(

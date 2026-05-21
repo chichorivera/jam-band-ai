@@ -13,7 +13,7 @@ const GROOVE_PATTERNS: number[][] = [
 
 export class BassPlayer extends InstrumentPlayer {
   private synth!: Tone.Synth
-  private volumeNode: Tone.Volume
+  private volumeNode!: Tone.Volume
   private scaleEngine: ScaleEngine
   private mode: BassMode = 'groove'
   private step = 0
@@ -22,10 +22,14 @@ export class BassPlayer extends InstrumentPlayer {
   constructor(scaleEngine: ScaleEngine) {
     super()
     this.scaleEngine = scaleEngine
-    this.volumeNode = new Tone.Volume(-3).connect(audioEngine.getBassOutput())
   }
 
   init() {
+    this.loop?.stop()
+    this.synth?.dispose()
+    this.volumeNode?.dispose()
+    this.volumeNode = new Tone.Volume(-3).connect(audioEngine.getBassOutput())
+
     this.synth = new Tone.Synth({
       oscillator: { type: 'sawtooth' },
       envelope: { attack: 0.01, decay: 0.3, sustain: 0.4, release: 0.2 },

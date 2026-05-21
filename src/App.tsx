@@ -119,13 +119,10 @@ function App() {
     })
 
     return () => {
-      drumPlayer.dispose()
-      bassPlayer.dispose()
-      guitarPlayer.dispose()
-      keysPlayer.dispose()
-      loopRef.current?.dispose()
+      // Solo detener — no disponer singletons de audio (StrictMode llama cleanup dos veces en dev)
+      audioEngine.stopTransport()
+      loopRef.current?.stop()
       micAnalyser.stop()
-      audioEngine.dispose()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
